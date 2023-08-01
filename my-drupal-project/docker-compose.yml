@@ -1,0 +1,29 @@
+version: '3'
+services:
+  drupal:
+    image: drupal:9.5.10-php8.2-apache
+    ports:
+      - "1236:80"
+    volumes:
+      - ./modules:/var/www/html/modules
+      - ./profiles:/var/www/html/profiles
+      - ./sites:/var/www/html/sites
+      - ./themes:/var/www/html/themes
+    depends_on:
+      - mysql
+    networks:
+      - some1-network
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - some1-network
+
+networks:
+  some1-network:
+    driver: bridge
